@@ -426,6 +426,9 @@ class Trainer(object):
             model.train()
             iter_tic = time.time()
             for step_id, data in enumerate(self.loader):
+                #if step_id > 1:
+                #    print("---- done! ----")
+                #    break
                 self.status['data_time'].update(time.time() - iter_tic)
                 self.status['step_id'] = step_id
                 profiler.add_profiler_step(profiler_options)
@@ -523,6 +526,9 @@ class Trainer(object):
                 self.dataset, self.cfg.worker_num, self._eval_batch_sampler)
             self._flops(flops_loader)
         for step_id, data in enumerate(loader):
+            #if step_id > 1:
+            #    print("---- eval done!! ----")
+            #    break
             self.status['step_id'] = step_id
             self._compose_callback.on_step_begin(self.status)
             # forward

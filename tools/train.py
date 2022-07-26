@@ -128,6 +128,9 @@ def run(FLAGS, cfg):
 
 
 def main():
+    #flags = {'FLAGS_benchmark': True}
+    #paddle.fluid.set_flags(flags)
+
     FLAGS = parse_args()
     cfg = load_config(FLAGS.config)
     cfg['amp'] = FLAGS.amp
@@ -148,12 +151,18 @@ def main():
     if 'use_xpu' not in cfg:
         cfg.use_xpu = False
 
+    # disable mlu in config by default
+    if 'use_mlu' not in cfg:
+        cfg.use_mlu = False
+
     if cfg.use_gpu:
         place = paddle.set_device('gpu')
     elif cfg.use_npu:
         place = paddle.set_device('npu')
     elif cfg.use_xpu:
         place = paddle.set_device('xpu')
+    elif cfg.use_mlu:
+        place = paddle.set_device('mlu')
     else:
         place = paddle.set_device('cpu')
 
